@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
 import {
   Sidebar,
@@ -14,33 +14,39 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { GalleryVerticalEndIcon } from "lucide-react"
+} from "@/components/ui/sidebar";
+import { GalleryVerticalEndIcon } from "lucide-react";
 
 // 菜单项类型
 export interface NavSubItem {
-  title: string
-  url: string
-  isActive?: boolean
+  title: string;
+  url: string;
+  isActive?: boolean;
 }
 
 export interface NavItem {
-  title: string
-  url: string
-  items?: NavSubItem[]
+  title: string;
+  url: string;
+  items?: NavSubItem[];
 }
 
 export interface SidebarData {
-  navMain: NavItem[]
+  navMain: NavItem[];
   logo?: {
-    title: string
-    subtitle?: string
-    icon?: React.ReactNode
-  }
+    title: string;
+    subtitle?: string;
+    icon?: React.ReactNode;
+    href?: string;
+  };
 }
 
-// 默认数据
-const defaultData: SidebarData = {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  menu?: SidebarData;
+  homeHref?: string;
+}
+
+// 默认菜单数据
+const defaultMenu: SidebarData = {
   navMain: [
     {
       title: "Getting Started",
@@ -50,10 +56,6 @@ const defaultData: SidebarData = {
           title: "Installation",
           url: "#",
         },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
       ],
     },
   ],
@@ -61,14 +63,15 @@ const defaultData: SidebarData = {
     title: "Documentation",
     subtitle: "v1.0.0",
   },
-}
+};
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  data?: SidebarData
-}
+export function AppSidebar({ menu = defaultMenu, ...props }: AppSidebarProps) {
+  const logoIcon = menu.logo?.icon ?? (
+    <GalleryVerticalEndIcon className="size-4" />
+  );
 
-export function AppSidebar({ data = defaultData, ...props }: AppSidebarProps) {
-  const logoIcon = data.logo?.icon ?? <GalleryVerticalEndIcon className="size-4" />
+  // 使用菜单中配置的 href，或传入的 homeHref，默认为首页
+  const logoHref = menu.logo?.href || "/";
 
   return (
     <Sidebar {...props}>
@@ -76,17 +79,23 @@ export function AppSidebar({ data = defaultData, ...props }: AppSidebarProps) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <div className="flex items-center gap-2 cursor-pointer">
+                {/* 图标点击返回首页 */}
+                <a 
+                  href={logoHref}
+                  className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
+                >
                   {logoIcon}
-                </div>
+                </a>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">{data.logo?.title ?? "Documentation"}</span>
-                  {data.logo?.subtitle && (
-                    <span className="">{data.logo.subtitle}</span>
+                  <span className="font-medium">
+                    {menu.logo?.title ?? "Documentation"}
+                  </span>
+                  {menu.logo?.subtitle && (
+                    <span className="">{menu.logo.subtitle}</span>
                   )}
                 </div>
-              </a>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -94,7 +103,7 @@ export function AppSidebar({ data = defaultData, ...props }: AppSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item) => (
+            {menu.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">
@@ -105,7 +114,10 @@ export function AppSidebar({ data = defaultData, ...props }: AppSidebarProps) {
                   <SidebarMenuSub>
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild isActive={subItem.isActive}>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={subItem.isActive}
+                        >
                           <a href={subItem.url}>{subItem.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
@@ -119,5 +131,5 @@ export function AppSidebar({ data = defaultData, ...props }: AppSidebarProps) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

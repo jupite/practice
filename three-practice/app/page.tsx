@@ -1,4 +1,4 @@
-import CardGrid from "@/components/card-grid"
+import CardGrid from "@/components/shared/card-grid"
 import { cardConfig } from "@/config/menus/cards-menu"
 
 export default function Home() {
