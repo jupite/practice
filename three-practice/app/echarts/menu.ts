@@ -1,16 +1,21 @@
-export const threejsMenu = {
+export const echartsMenu = {
   navMain: [
     {
-      title: "基础",
+      title: "首页",
+      url: "/echarts",
+      items: [],
+    },
+    {
+      title: "快速开始",
       url: "#",
       items: [
         {
           title: "示例 01",
-          url: "/threejs/01",
+          url: "/echarts/01",
         },
         {
           title: "示例 02",
-          url: "/threejs/02",
+          url: "/echarts/02",
         },
       ],
     },
@@ -20,17 +25,17 @@ export const threejsMenu = {
       items: [
         {
           title: "示例 03",
-          url: "/threejs/03",
+          url: "/echarts/03",
         },
         {
           title: "示例 04",
-          url: "/threejs/04",
+          url: "/echarts/04",
         },
       ],
     },
   ],
   logo: {
-    title: "Three.js",
+    title: "react",
     subtitle: "Practice",
   },
 }

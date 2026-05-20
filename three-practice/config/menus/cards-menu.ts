@@ -9,6 +9,30 @@ export interface CardItem {
 
 export const cardConfig: CardItem[] = [
   {
+    id: 'threejs',
+    title: 'Three.js',
+    description: '3D 图形展示和交互体验',
+    href: '/threejs',
+    icon: 'Box',
+    color: 'bg-purple-500',
+  },
+  {
+    id: 'react',
+    title: 'React',
+    description: 'React 框架',
+    href: '/react',
+    icon: 'Box',
+    color: 'bg-yellow-500',
+  },
+  {
+    id: 'echarts',
+    title: 'ECharts',
+    description: 'ECharts 框架',
+    href: '/echarts',
+    icon: 'Box',
+    color: 'bg-yellow-500',
+  },
+  {
     id: 'dashboard',
     title: '仪表盘',
     description: '查看系统整体数据概览和关键指标',
@@ -23,13 +47,5 @@ export const cardConfig: CardItem[] = [
     href: '/about',
     icon: 'Info',
     color: 'bg-green-500',
-  },
-  {
-    id: 'threejs',
-    title: 'Three.js',
-    description: '3D 图形展示和交互体验',
-    href: '/threejs',
-    icon: 'Box',
-    color: 'bg-purple-500',
   },
 ]

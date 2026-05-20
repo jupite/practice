@@ -1,7 +1,12 @@
-export const threejsMenu = {
+export const reactMenu = {
   navMain: [
     {
-      title: "基础",
+      title: "首页",
+      url: "/threejs",
+      items: [],
+    },
+    {
+      title: "快速开始",
       url: "#",
       items: [
         {
@@ -30,7 +35,7 @@ export const threejsMenu = {
     },
   ],
   logo: {
-    title: "Three.js",
+    title: "react",
     subtitle: "Practice",
   },
 }
