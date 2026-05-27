@@ -65,7 +65,7 @@ export default function QuarterlySalesChart() {
       },
       legend: {
         data: ["电子产品", "家居用品", "服装", "食品", "总销量趋势"],
-        top: 50,
+        top: 70,
         left: "center",
         itemWidth: 20,
         itemHeight: 14,
@@ -78,7 +78,7 @@ export default function QuarterlySalesChart() {
         left: "3%",
         right: "4%",
         bottom: "10%",
-        top: "22%",
+        top: "28%",
         containLabel: true,
       },
       xAxis: [
