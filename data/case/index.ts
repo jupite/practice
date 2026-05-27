@@ -53,6 +53,20 @@ const cases: CaseItem[] = [
     publishedAt: "2026-03-08",
     stats: { views: 21540, likes: 712 },
   },
+  {
+    id: "case-005",
+    title: "月度经营数据可视化",
+    summary: "使用 ECharts 实现公司 1-12 月销售额与利润率的双 Y 轴趋势分析图表。",
+    description:
+      "该案例展示了如何使用 ECharts 构建复杂的经营数据可视化图表。采用双 Y 轴设计，左侧展示销售额柱状图（垂直线性渐变），右侧展示利润率平滑折线图。集成 dataZoom 区域缩放组件，支持交互式数据探索。图表支持响应式布局，自适应容器宽度，高度固定为 400px。",
+    cover:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    tags: ["数据可视化", "ECharts", "数据分析"],
+    author: "数据团队",
+    publishedAt: "2026-05-27",
+    stats: { views: 3420, likes: 156 },
+    chartType: "monthly-business",
+  },
 ];
 
 export default cases;

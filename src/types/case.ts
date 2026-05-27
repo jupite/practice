@@ -11,6 +11,7 @@ export interface CaseItem {
     views: number;
     likes: number;
   };
+  chartType?: string;
 }
 
 export interface ApiResponse<T> {

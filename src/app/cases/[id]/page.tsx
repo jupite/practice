@@ -1,6 +1,7 @@
 import type { CaseItem, ApiResponse } from "@/types/case";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CaseChartRenderer from "@/components/CaseChartRenderer";
 
 async function fetchCase(id: string): Promise<CaseItem | null> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -65,6 +66,13 @@ export default async function CaseDetailPage({
           <p className="mt-6 text-lg text-slate-700 leading-relaxed">
             {item.summary}
           </p>
+
+          {item.chartType && (
+            <div className="mt-8 border-t border-slate-100 pt-6">
+              <h2 className="text-xl font-semibold text-slate-900 mb-4">数据可视化</h2>
+              <CaseChartRenderer chartType={item.chartType} />
+            </div>
+          )}
 
           <div className="mt-8 border-t border-slate-100 pt-6">
             <h2 className="text-xl font-semibold text-slate-900 mb-4">案例详情</h2>
