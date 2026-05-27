@@ -67,6 +67,20 @@ const cases: CaseItem[] = [
     stats: { views: 3420, likes: 156 },
     chartType: "monthly-business",
   },
+  {
+    id: "case-006",
+    title: "季度品类销量分析",
+    summary: "使用堆叠柱状图与折线图组合展示电子产品、家居用品、服装、食品四个品类的季度销量与总销量趋势。",
+    description:
+      "该案例展示了如何使用 ECharts 构建堆叠柱状图与折线图的组合图表。采用堆叠柱状图展示四个品类（电子产品、家居用品、服装、食品）在四个季度（Q1-Q4）的销量构成，柱子使用圆角矩形和柔和配色（浅绿、橙黄、浅紫、天蓝）。在每个堆叠柱顶部显示该季度的总销量数值。额外增加一条虚线样式的折线图表示总销量趋势，使用右侧第二 Y 轴，数据点显示实心圆标记。图例置于图表上方，支持点击切换品类堆叠及总销量趋势线的显隐。图表背景设置为浅灰色（#f5f5f5），并带有细微的网格线。",
+    cover:
+      "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?auto=format&fit=crop&w=1200&q=80",
+    tags: ["数据可视化", "ECharts", "堆叠柱状图"],
+    author: "数据团队",
+    publishedAt: "2026-05-27",
+    stats: { views: 2850, likes: 132 },
+    chartType: "quarterly-sales",
+  },
 ];
 
 export default cases;
