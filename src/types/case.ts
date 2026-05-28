@@ -1,3 +1,9 @@
+interface Chapter {
+  slug: string;
+  title: string;
+  content: string;
+}
+
 export interface CaseItem {
   id: string;
   title: string;
@@ -12,6 +18,7 @@ export interface CaseItem {
     likes: number;
   };
   chartType?: string;
+  chapters?: Chapter[];
 }
 
 export interface ApiResponse<T> {

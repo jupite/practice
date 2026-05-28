@@ -175,6 +175,20 @@ const cases: CaseItem[] = [
     stats: { views: 2180, likes: 98 },
     chartType: "category-sales-rose",
   },
+  {
+    id: "case-008",
+    title: "电商销售监控看板",
+    summary: "使用 ECharts dataset 组件实现饼图、柱状图、折线图三种图表的联动交互。",
+    description:
+      "该案例展示了 ECharts dataset 数据管理与图表联动交互的最佳实践。包含三个图表：饼图展示各品类销售额占比、柱状图展示子品牌销售额排行、折线图展示各品类日销售额趋势。点击饼图扇区时，柱状图只显示该品类下的子品牌数据，折线图只显示该品类的趋势线，实现数据钻取功能。所有图表支持窗口大小自适应，tooltip 自定义格式化显示。",
+    cover:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    tags: ["数据可视化", "ECharts", "dashboard", "联动交互"],
+    author: "数据团队",
+    publishedAt: "2026-05-29",
+    stats: { views: 1850, likes: 125 },
+    chartType: "sales-dashboard",
+  },
 ];
 
 export default cases;
