@@ -15,6 +15,7 @@ const MapDrillDown = ({ data }: MapDrillDownProps) => {
   const [currentProvince, setCurrentProvince] = useState<string>("");
   const mapJsonCacheRef = useRef<Record<string, any>>({});
 
+
   const loadMapJson = async (mapName: string): Promise<any> => {
     if (mapJsonCacheRef.current[mapName]) {
       return mapJsonCacheRef.current[mapName];
@@ -163,7 +164,7 @@ const MapDrillDown = ({ data }: MapDrillDownProps) => {
           map: "china",
           geoIndex: 0,
           data: data.nationalData.map((item) => ({
-            name: item.name.replace("省", "").replace("自治区", "").replace("市", "").replace("特别行政区", "").replace("壮族", "").replace("维吾尔", "").replace("回族", ""),
+            name: item.name,
             value: item.value,
           })),
         },
@@ -221,14 +222,7 @@ const MapDrillDown = ({ data }: MapDrillDownProps) => {
             return params.name;
           },
         },
-        visualMap: {
-          show: false,
-          min: -20,
-          max: 20,
-          inRange: {
-            color: ["#e74c3c", "#f39c12", "#2ecc71"],
-          },
-        },
+
         geo: {
           map: provinceName,
           roam: true,
@@ -308,15 +302,9 @@ const MapDrillDown = ({ data }: MapDrillDownProps) => {
       }
 
       if (currentLevel === "national" && params.seriesType === "map") {
-        const provinceName = data.nationalData.find(
-          (item) =>
-            item.name.includes(params.name) ||
-            params.name.includes(item.name.replace("省", "").replace("自治区", "").replace("市", ""))
-        )?.name;
-
-        if (provinceName && data.provinceCityData[provinceName]) {
+        if (params.name && data.provinceCityData[params.name]) {
           setCurrentLevel("province");
-          setCurrentProvince(provinceName);
+          setCurrentProvince(params.name);
         }
       }
     },
