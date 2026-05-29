@@ -190,6 +190,20 @@ const cases: CaseItem[] = [
     stats: { views: 1850, likes: 125 },
     chartType: "sales-dashboard",
   },
+  {
+    id: "case-009",
+    title: "中国地图下钻分析",
+    summary: "使用 ECharts 实现中国地图下钻功能，初始展示全国各省销售额，点击省份查看城市气泡散点图。",
+    description:
+      "该案例展示了如何使用 ECharts 实现交互式地图下钻功能。初始视图展示全国各省销售额热力图，通过 visualMap 组件直观展示销售额高低分布。点击支持的省份（广东、浙江、江苏）可下钻到省级地图，展示省内各城市的气泡散点图。气泡大小代表销售额高低，颜色代表增长率（正绿负红）。提供返回按钮和标题点击返回全国视图，支持地图缩放和拖拽。图例清晰说明气泡颜色和大小的含义。",
+    cover:
+      "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80",
+    tags: ["数据可视化", "ECharts", "地图", "下钻", "气泡图"],
+    author: "数据团队",
+    publishedAt: "2026-05-29",
+    stats: { views: 1680, likes: 142 },
+    chartType: "map-drilldown",
+  },
 ];
 
 export default cases;

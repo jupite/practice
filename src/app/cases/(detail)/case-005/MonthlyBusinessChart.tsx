@@ -7,7 +7,7 @@ import type { MonthlyBusinessData } from "@/types/case";
 async function fetchChartData(): Promise<MonthlyBusinessData | null> {
   try {
     const res = await fetch("/api/chart-data/monthly-business");
-    const result = await res.json();
+    const result = await res.json(); 
     if (result.code === 0) {
       return result.data;
     }

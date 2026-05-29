@@ -36,11 +36,28 @@ export interface SalesDashboardData {
   }>;
 }
 
+export interface ProvinceSalesData {
+  name: string;
+  value: number;
+}
+
+export interface CityBubbleData {
+  name: string;
+  sales: number;
+  growth: number;
+}
+
+export interface MapDrillDownData {
+  nationalData: ProvinceSalesData[];
+  provinceCityData: Record<string, CityBubbleData[]>;
+}
+
 export type ChartDataType =
   | "monthly-business"
   | "quarterly-sales"
   | "category-sales-rose"
-  | "sales-dashboard";
+  | "sales-dashboard"
+  | "map-drilldown";
 
 export interface CaseItem {
   id: string;

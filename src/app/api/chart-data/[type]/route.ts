@@ -4,6 +4,7 @@ import {
   quarterlySalesData,
   categorySalesRoseData,
   salesDashboardData,
+  mapDrillDownData,
 } from "../../../../../data/case";
 import type {
   ApiResponse,
@@ -11,6 +12,7 @@ import type {
   QuarterlySalesData,
   CategorySalesRoseData,
   SalesDashboardData,
+  MapDrillDownData,
   ChartDataType,
 } from "@/types/case";
 
@@ -20,13 +22,15 @@ type ChartDataResponse =
   | MonthlyBusinessData
   | QuarterlySalesData
   | CategorySalesRoseData
-  | SalesDashboardData;
+  | SalesDashboardData
+  | MapDrillDownData;
 
 const chartDataMap: Record<ChartDataType, ChartDataResponse> = {
   "monthly-business": monthlyBusinessData,
   "quarterly-sales": quarterlySalesData,
   "category-sales-rose": categorySalesRoseData,
   "sales-dashboard": salesDashboardData,
+  "map-drilldown": mapDrillDownData,
 };
 
 export async function GET(
