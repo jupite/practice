@@ -2,53 +2,20 @@
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import * as echarts from "echarts";
+import type { SalesDashboardData } from "@/types/case";
 
-interface SalesData {
-  category: string;
-  subbrand: string;
-  date: string;
-  sales: number;
-}
-
-const categories = ["服装", "数码", "食品", "美妆"];
-const subbrands: Record<string, string[]> = {
-  服装: ["云裳", "锦衣", "华服"],
-  数码: ["极客", "智联", "未来"],
-  食品: ["鲜滋", "美味", "优粮"],
-  美妆: ["焕颜", "纯美", "丽质"],
-};
-
-function generateSalesData(): SalesData[] {
-  const data: SalesData[] = [];
-  const startDate = new Date("2024-07-01");
-
-  for (let day = 0; day < 15; day++) {
-    const date = new Date(startDate);
-    date.setDate(date.getDate() + day);
-    const dateStr = date.toISOString().split("T")[0];
-
-    for (const category of categories) {
-      for (const subbrand of subbrands[category]) {
-        const baseSales = category === "数码" ? 800 : category === "服装" ? 600 : category === "美妆" ? 500 : 400;
-        const subbrandFactor = subbrands[category].indexOf(subbrand) * 0.3 + 0.8;
-        const dayFactor = 1 + Math.sin(day * 0.5) * 0.3;
-        const randomFactor = 0.7 + Math.random() * 0.6;
-        const sales = Math.round(baseSales * subbrandFactor * dayFactor * randomFactor);
-
-        data.push({
-          category,
-          subbrand,
-          date: dateStr,
-          sales,
-        });
-      }
+async function fetchChartData(): Promise<SalesDashboardData | null> {
+  try {
+    const res = await fetch("/api/chart-data/sales-dashboard");
+    const result = await res.json();
+    if (result.code === 0) {
+      return result.data;
     }
+    return null;
+  } catch {
+    return null;
   }
-
-  return data;
 }
-
-const morandiColors = ["#8E9AAF", "#B8A9C9", "#DEB8A0", "#A3B18A", "#9CB4CC", "#C9ADA7"];
 
 export default function SalesDashboard() {
   const pieChartRef = useRef<HTMLDivElement>(null);
@@ -59,9 +26,17 @@ export default function SalesDashboard() {
   const barInstanceRef = useRef<echarts.ECharts | null>(null);
   const lineInstanceRef = useRef<echarts.ECharts | null>(null);
 
+  const [chartData, setChartData] = useState<SalesDashboardData | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const rawData = useMemo(() => generateSalesData(), []);
+  useEffect(() => {
+    fetchChartData().then(setChartData);
+  }, []);
+
+  const rawData = chartData?.salesData ?? [];
+  const categories = chartData?.categories ?? [];
+  const subbrands = chartData?.subbrands ?? {};
+  const morandiColors = chartData?.morandiColors ?? [];
 
   const uniqueDates = useMemo(() => {
     return [...new Set(rawData.map((d) => d.date))].sort();
@@ -70,12 +45,12 @@ export default function SalesDashboard() {
   const categoryMap = useMemo(() => {
     const map: Record<string, string> = {};
     for (const cat of categories) {
-      for (const sub of subbrands[cat]) {
+      for (const sub of subbrands[cat] ?? []) {
         map[sub] = cat;
       }
     }
     return map;
-  }, []);
+  }, [categories, subbrands]);
 
   const pieDatasetData = useMemo(() => {
     const categoryTotals: Record<string, number> = {};
@@ -115,7 +90,7 @@ export default function SalesDashboard() {
       }
     }
     return result;
-  }, [rawData, uniqueDates]);
+  }, [rawData, uniqueDates, categories]);
 
   const updateBarChart = useCallback((category: string | null) => {
     if (!barInstanceRef.current) return;
@@ -195,10 +170,10 @@ export default function SalesDashboard() {
         series,
       });
     }
-  }, [lineDatasetData]);
+  }, [lineDatasetData, categories, morandiColors]);
 
   useEffect(() => {
-    if (!pieChartRef.current || !barChartRef.current || !lineChartRef.current) return;
+    if (!chartData || !pieChartRef.current || !barChartRef.current || !lineChartRef.current) return;
 
     const pieChart = echarts.init(pieChartRef.current);
     const barChart = echarts.init(barChartRef.current);
@@ -472,7 +447,7 @@ export default function SalesDashboard() {
       barChart.dispose();
       lineChart.dispose();
     };
-  }, [pieDatasetData, pieTotal, barDatasetDataAll, lineDatasetData]);
+  }, [chartData, pieDatasetData, pieTotal, barDatasetDataAll, lineDatasetData, categories, morandiColors]);
 
   useEffect(() => {
     if (!pieInstanceRef.current) return;
@@ -536,6 +511,14 @@ export default function SalesDashboard() {
       name: category,
     });
   };
+
+  if (!chartData) {
+    return (
+      <div className="w-full flex items-center justify-center py-20">
+        <div className="text-slate-500 text-lg">加载中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-6">

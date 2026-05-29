@@ -1,22 +1,39 @@
 "use client";
 
 import ReactECharts from "echarts-for-react";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import type { QuarterlySalesData } from "@/types/case";
+
+async function fetchChartData(): Promise<QuarterlySalesData | null> {
+  try {
+    const res = await fetch("/api/chart-data/quarterly-sales");
+    const result = await res.json();
+    if (result.code === 0) {
+      return result.data;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export default function QuarterlySalesChart() {
-  const quarters = ["Q1", "Q2", "Q3", "Q4"];
+  const [chartData, setChartData] = useState<QuarterlySalesData | null>(null);
 
-  const electronicsData = [320, 450, 380, 520];
-  const householdData = [280, 320, 400, 450];
-  const clothingData = [420, 380, 450, 500];
-  const foodData = [350, 400, 480, 550];
-
-  const totalSales = quarters.map(
-    (_, i) =>
-      electronicsData[i] + householdData[i] + clothingData[i] + foodData[i]
-  );
+  useEffect(() => {
+    fetchChartData().then(setChartData);
+  }, []);
 
   const option = useMemo(() => {
+    if (!chartData) return {};
+
+    const { quarters, electronicsData, householdData, clothingData, foodData } = chartData;
+
+    const totalSales = quarters.map(
+      (_, i) =>
+        electronicsData[i] + householdData[i] + clothingData[i] + foodData[i]
+    );
+
     return {
       backgroundColor: "#f5f5f5",
       title: {
@@ -249,7 +266,15 @@ export default function QuarterlySalesChart() {
         },
       ],
     };
-  }, [quarters, electronicsData, householdData, clothingData, foodData, totalSales]);
+  }, [chartData]);
+
+  if (!chartData) {
+    return (
+      <div className="w-full flex items-center justify-center" style={{ height: "400px" }}>
+        <div className="text-slate-500">加载中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full" style={{ height: "400px" }}>

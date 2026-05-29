@@ -1,4 +1,5 @@
 import type { CaseItem } from "@/types/case";
+export * from "./charts";
 
 const cases: CaseItem[] = [
   {

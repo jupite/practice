@@ -1,30 +1,34 @@
 "use client";
 
 import ReactECharts from "echarts-for-react";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import type { CategorySalesRoseData } from "@/types/case";
+
+async function fetchChartData(): Promise<CategorySalesRoseData | null> {
+  try {
+    const res = await fetch("/api/chart-data/category-sales-rose");
+    const result = await res.json();
+    if (result.code === 0) {
+      return result.data;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export default function CategorySalesRoseChart() {
-  const categories = [
-    "数码电子",
-    "美妆护肤",
-    "服饰鞋包",
-    "食品饮料",
-    "家居生活",
-    "运动户外",
-  ];
+  const [chartData, setChartData] = useState<CategorySalesRoseData | null>(null);
 
-  const salesData = [7500, 5200, 4800, 3500, 2200, 1800];
-
-  const morandiColors = [
-    "#8E9AAF",
-    "#B8A9C9",
-    "#DEB8A0",
-    "#A3B18A",
-    "#9CB4CC",
-    "#C9ADA7",
-  ];
+  useEffect(() => {
+    fetchChartData().then(setChartData);
+  }, []);
 
   const option = useMemo(() => {
+    if (!chartData) return {};
+
+    const { categories, salesData, morandiColors } = chartData;
+
     return {
       title: {
         text: "品类销售额占比",
@@ -134,7 +138,15 @@ export default function CategorySalesRoseChart() {
         },
       ],
     };
-  }, [categories, salesData, morandiColors]);
+  }, [chartData]);
+
+  if (!chartData) {
+    return (
+      <div className="w-full flex items-center justify-center" style={{ height: "450px" }}>
+        <div className="text-slate-500">加载中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full" style={{ height: "450px" }}>

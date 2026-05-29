@@ -1,34 +1,34 @@
 "use client";
 
 import ReactECharts from "echarts-for-react";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import type { MonthlyBusinessData } from "@/types/case";
+
+async function fetchChartData(): Promise<MonthlyBusinessData | null> {
+  try {
+    const res = await fetch("/api/chart-data/monthly-business");
+    const result = await res.json();
+    if (result.code === 0) {
+      return result.data;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export default function MonthlyBusinessChart() {
-  const months = [
-    "1月",
-    "2月",
-    "3月",
-    "4月",
-    "5月",
-    "6月",
-    "7月",
-    "8月",
-    "9月",
-    "10月",
-    "11月",
-    "12月",
-  ];
+  const [chartData, setChartData] = useState<MonthlyBusinessData | null>(null);
 
-  const salesData = [
-    120.5, 132.8, 101.2, 134.9, 190.3, 230.6, 210.7, 182.4, 191.8, 234.5, 290.2,
-    330.9,
-  ];
-
-  const profitRateData = [
-    12.3, 13.5, 11.2, 14.8, 16.2, 18.5, 17.3, 15.9, 16.8, 18.2, 20.5, 22.3,
-  ];
+  useEffect(() => {
+    fetchChartData().then(setChartData);
+  }, []);
 
   const option = useMemo(() => {
+    if (!chartData) return {};
+
+    const { months, salesData, profitRateData } = chartData;
+
     return {
       title: {
         text: "月度经营数据",
@@ -253,7 +253,15 @@ export default function MonthlyBusinessChart() {
         },
       ],
     };
-  }, [months, salesData, profitRateData]);
+  }, [chartData]);
+
+  if (!chartData) {
+    return (
+      <div className="w-full flex items-center justify-center" style={{ height: "400px" }}>
+        <div className="text-slate-500">加载中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full" style={{ height: "400px" }}>
