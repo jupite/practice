@@ -204,6 +204,20 @@ const cases: CaseItem[] = [
     stats: { views: 1680, likes: 142 },
     chartType: "map-drilldown",
   },
+  {
+    id: "case-010",
+    title: "实时温度监控系统",
+    summary: "使用 ECharts 实现模拟实时温度监控图表，具备动态数据流、阈值线和闪烁告警功能。",
+    description:
+      "该案例展示了如何使用 ECharts 构建实时温度监控系统。通过 setInterval 每秒生成一个模拟温度值，范围在 20°C ~ 30°C 之间，其中约 20% 概率产生超过 28°C 或低于 22°C 的异常值。图表始终展示最近 60 个数据点，初始为空，随着数据到来向右推移，旧数据自动移出视图。图表上绘制两条 markLine 阈值线：上限 28°C 红色虚线、下限 22°C 蓝色虚线，常态下正常显示。当最新数据点超出阈值时，对应的 markLine 进入告警状态：线条颜色变为高亮并产生闪烁效果，同时该异常数据点以高亮闪烁圆点标记。顶部 KPI 卡片实时显示当前温度、监控状态和数据点数。",
+    cover:
+      "https://images.unsplash.com/photo-1592921870789-04563d55041c?auto=format&fit=crop&w=1200&q=80",
+    tags: ["数据可视化", "ECharts", "实时监控", "告警", "动态数据"],
+    author: "数据团队",
+    publishedAt: "2026-05-29",
+    stats: { views: 1250, likes: 98 },
+    chartType: "temperature-monitor",
+  },
 ];
 
 export default cases;

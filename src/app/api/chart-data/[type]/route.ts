@@ -31,6 +31,7 @@ const chartDataMap: Record<ChartDataType, ChartDataResponse> = {
   "category-sales-rose": categorySalesRoseData,
   "sales-dashboard": salesDashboardData,
   "map-drilldown": mapDrillDownData,
+  "temperature-monitor": monthlyBusinessData,
 };
 
 export async function GET(

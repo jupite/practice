@@ -57,7 +57,8 @@ export type ChartDataType =
   | "quarterly-sales"
   | "category-sales-rose"
   | "sales-dashboard"
-  | "map-drilldown";
+  | "map-drilldown"
+  | "temperature-monitor";
 
 export interface CaseItem {
   id: string;
